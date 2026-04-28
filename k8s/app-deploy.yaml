@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: my-pod
-        image: yashmane108/simple-web:v1
+        image: yashmane108/simple-app:REPLACE_ME
         ports:
         - containerPort: 80
         # --- ADD PROBES BELOW ---
