@@ -1,4 +1,4 @@
-app-deploy.yamlapiVersion: v1
+apiVersion: v1
 kind: Namespace
 
 metadata:
