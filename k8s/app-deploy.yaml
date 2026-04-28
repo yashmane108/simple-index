@@ -1,0 +1,73 @@
+app-deploy.yamlapiVersion: v1
+kind: Namespace
+
+metadata:
+  name: my-ns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-dep
+  namespace: my-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-web
+  template:
+    metadata:
+      labels:
+        app: my-web
+    spec:
+      containers:
+      - name: my-pod
+        image: yashmane108/simple-web:v1
+        ports:
+        - containerPort: 80
+        # --- ADD PROBES BELOW ---
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10 # Give Nginx 10s to start up
+          periodSeconds: 15       # Check every 15 seconds
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5  # Start checking almost immediately
+          periodSeconds: 5        # Check often for traffic routing
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-svc
+  namespace: my-ns
+spec:
+  selector:
+    app: my-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ing
+  namespace: my-ns
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-svc
+            port:
+              number: 80
+
