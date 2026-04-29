@@ -1,11 +1,18 @@
-# Use the lightweight Nginx image
-FROM nginx:alpine
+# Use Python instead of Nginx
+FROM python:3.9-slim
 
-# Remove default nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy our simple web page to the Nginx server
-COPY index.html /usr/share/nginx/html/index.html
+# Install the necessary 'libraries' for Python to talk to the web and RDS
+RUN pip install --no-cache-dir flask pymysql
 
-# Expose port 80
+# Copy your Python code (app.py) and your HTML (index.html)
+COPY app.py .
+COPY index.html .
+
+# Still expose port 80
 EXPOSE 80
+
+# Command to start the Python server
+CMD ["python", "app.py"]
