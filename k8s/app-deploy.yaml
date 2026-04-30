@@ -60,12 +60,27 @@ spec:
             cpu: "500m"       # Max 50% of 1 CPU core
         ports:
         - containerPort: 80
-        env: 
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-sec
-                key: password
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: password
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-sec
+              key: dbname
         # --- ADD PROBES BELOW ---
         livenessProbe:
           httpGet:
