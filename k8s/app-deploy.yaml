@@ -16,7 +16,7 @@ stringData:  # Use stringData to put plain text; K8s will encode it for you
   password: "QWRtaW5AJCUxMjM="
   host: "database-1.cih84c6osdd0.us-east-1.rds.amazonaws.com"
   user: "admin"
-  dbname: "devops_b" # Update this from 'mysql' to your new database name # Based on your 'show databases' output
+  dbname: "devops_db" # Update this from 'mysql' to your new database name # Based on your 'show databases' output
 #data:
 #  password: QWRtaW5AJCUxMjM= # echo -n "Admin@$%123" | base64
 ---
