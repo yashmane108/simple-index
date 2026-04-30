@@ -4,8 +4,11 @@ FROM python:3.9-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install the necessary 'libraries' for Python to talk to the web and RDS
-RUN pip install --no-cache-dir flask pymysql
+# Install system dependencies for cryptography
+RUN apt-get update && apt-get install -y gcc libssl-dev && rm -rf /var/lib/apt/lists/*
+
+# Install python libraries
+RUN pip install --no-cache-dir flask pymysql cryptography boto3
 
 # Copy your Python code (app.py) and your HTML (index.html)
 COPY app.py .
