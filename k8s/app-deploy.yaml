@@ -86,7 +86,7 @@ spec:
         # --- ADD PROBES BELOW ---
         livenessProbe:
           httpGet:
-            path: /
+            path: /health
             port: 80
           initialDelaySeconds: 30
           periodSeconds: 10
@@ -94,7 +94,7 @@ spec:
           failureThreshold: 3      # Check every 15 seconds
         readinessProbe:
           httpGet:
-            path: /
+            path: /health
             port: 80
           initialDelaySeconds: 20  # Start checking almost immediately
           periodSeconds: 10        # Check often for traffic routing
