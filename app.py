@@ -21,6 +21,8 @@ def get_conn():
         user=DB_USER,
         password=token, # Use the dynamic IAM token
         database=DB_NAME,
+        port=3306,
+        ssl={'ssl': {}},   # ✅ REQUIRED for IAM auth
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor
     ) 
