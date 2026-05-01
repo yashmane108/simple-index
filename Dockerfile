@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y gcc libssl-dev && rm -rf /var/lib/apt/lists/*
 
 # Install python libraries
-RUN pip install --no-cache-dir flask pymysql cryptography boto3
+RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore
 
 # Copy your Python code (app.py) and your HTML (index.html)
 COPY app.py .
