@@ -24,7 +24,7 @@ metadata:
   name: mysql-sec
   namespace: my-ns
 
-type: Opaque
+type: opaque
 stringData:  # Use stringData to put plain text; K8s will encode it for you
 #  password: "QWRtaW5AJCUxMjM="
   host: "database-1.cih84c6osdd0.us-east-1.rds.amazonaws.com"
