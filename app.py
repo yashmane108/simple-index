@@ -1,18 +1,27 @@
-from flask import Flask, render_template_string, request, redirect
+import boto3
 import pymysql
 import os
-import boto3
+from flask import Flask, render_template_string, request, redirect
 
 app = Flask(__name__)
 
-# Config from K8s Secrets
-DB_HOST = os.environ.get('DB_HOST')
-DB_USER = os.environ.get('DB_USER')
-DB_PASS = os.environ.get('DB_PASSWORD')
-DB_NAME = os.environ.get('DB_NAME', 'devops_db') # Default to your new DB
-
 def get_conn():
-    return pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASS, database=DB_NAME)
+    host = os.environ.get('DB_HOST')
+    user = os.environ.get('DB_USER')
+    region = "us-east-1"
+    
+    # Generate the IAM Token
+    client = boto3.client('rds', region_name=region)
+    token = client.generate_db_auth_token(DBHostname=host, Port=3306, DBUsername=user)
+    
+    return pymysql.connect(
+        host=host,
+        user=user,
+        password=token, # Use token instead of static password
+        database=os.environ.get('DB_NAME'),
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    ) 
 
 # --- IMPROVED UI TEMPLATE ---
 HTML_TEMPLATE = """
