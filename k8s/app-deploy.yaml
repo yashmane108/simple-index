@@ -83,18 +83,6 @@ spec:
               name: mysql-sec
               key: dbname
         # --- ADD PROBES BELOW ---
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 10 # Give Nginx 10s to start up
-          periodSeconds: 15       # Check every 15 seconds
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5  # Start checking almost immediately
-          periodSeconds: 5        # Check often for traffic routing
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
