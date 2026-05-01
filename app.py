@@ -79,6 +79,15 @@ HTML_TEMPLATE = """
 </html>
 """
 
+@app.route('/debug')
+def debug():
+    try:
+        sts = boto3.client('sts')
+        identity = sts.get_caller_identity()
+        return str(identity)
+    except Exception as e:
+        return str(e)
+
 @app.route('/health')
 def health():
     return "OK", 200
