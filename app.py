@@ -79,6 +79,10 @@ HTML_TEMPLATE = """
 </html>
 """
 
+@app.route('/health')
+def health():
+    return "OK", 200
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     db_status = "Connected ✅"
