@@ -27,7 +27,8 @@ def get_conn():
         database=DB_NAME,
         port=3306,
         charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
+        cursorclass=pymysql.cursors.DictCursor,
+        connect_timeout=5
     ) 
 
 HTML_TEMPLATE = """
