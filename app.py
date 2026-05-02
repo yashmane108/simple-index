@@ -13,7 +13,7 @@ REGION = "us-east-1"
 
 def get_conn():
     # Generate the IAM Token dynamically for every connection
-    rds_client = boto3.client('rds', region_name=REGION),
+    rds_client = boto3.client('rds', region_name=REGION)
     token = rds_client.generate_db_auth_token(
         DBHostname=DB_HOST, 
         Port=3306, 
