@@ -24,7 +24,7 @@ def get_conn():
         port=3306,
         ssl={'ssl': {}},   # ✅ REQUIRED for IAM auth
         charset='utf8mb4',
-        cursorclass=pymysql.cursors.DictCursor
+        cursorclass=pymysql.cursors.DictCursor,
         client_flag=pymysql.constants.CLIENT.CAN_HANDLE_EXPIRED_PASSWORDS | pymysql.constants.CLIENT.PLUGIN_AUTH
     ) 
 
