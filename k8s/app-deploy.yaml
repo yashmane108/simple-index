@@ -10,6 +10,7 @@ metadata:
   name: my-svc
   namespace: my-ns
 spec:
+  type: LoadBalancer # add LoadBalancer
   selector:
     app: my-web
   ports:
@@ -52,13 +53,6 @@ spec:
       containers:
       - name: my-pod
         image: yashmane108/simple-app:REPLACE_ME
-        resources:
-          requests:
-            memory: "64Mi"   # Guaranteed 64 Megabytes
-            cpu: "100m"      # 10% of 1 CPU core
-          limits:
-            memory: "128Mi"  # Hard cap at 128 Megabytes
-            cpu: "500m"       # Max 50% of 1 CPU core
         ports:
         - containerPort: 80
         # AWS RDS 
@@ -83,6 +77,13 @@ spec:
             secretKeyRef:
               name: mysql-sec
               key: dbname
+        resources:
+          requests:
+            memory: "64Mi"   # Guaranteed 64 Megabytes
+            cpu: "100m"      # 10% of 1 CPU core
+          limits:
+            memory: "128Mi"  # Hard cap at 128 Megabytes
+            cpu: "500m"       # Max 50% of 1 CPU core
         # --- ADD PROBES BELOW ---
         livenessProbe:
           httpGet:
