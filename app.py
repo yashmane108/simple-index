@@ -23,7 +23,7 @@ def get_conn():
     return pymysql.connect(
         host=DB_HOST,
         user=DB_USER,      # Ensure this is "admin"
-        password="NewAdminPass123!", # Your new master password
+        password="Success2026!", # Your new master password
         database=DB_NAME,
         port=3306,
         charset='utf8mb4',
