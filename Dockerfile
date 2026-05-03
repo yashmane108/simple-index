@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore
 # Copy your Python code (app.py) and your HTML (index.html)
 COPY app.py .
 COPY index.html .
-
+COPY global-bundle.pem .
 # Still expose port 80
 EXPOSE 80
 
