@@ -100,28 +100,37 @@ def health():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        message = request.form.get('message')
+    db_status = "Disconnected ❌"
+    visitors = []
+
+    try:
+        # 1. Always check connection for the status indicator
+        conn = get_conn()
+        db_status = "Connected ✅"
         
-        # Only insert if there is actual data
-        if name and message:
-            conn = get_conn()
-            with conn.cursor() as cursor:
-                sql = "INSERT INTO visitors (name, message) VALUES (%s, %s)"
-                cursor.execute(sql, (name, message))
-            conn.commit()
-            conn.close()
-            return redirect('/')
+        # 2. Handle Data Submission (POST)
+        if request.method == 'POST':
+            name = request.form.get('name')
+            message = request.form.get('message')
+            if name and message:
+                with conn.cursor() as cursor:
+                    sql = "INSERT INTO visitors (name, message) VALUES (%s, %s)"
+                    cursor.execute(sql, (name, message))
+                conn.commit()
+                # Redirect to clear the form and show the new entry
+                return redirect('/')
 
-    # This part handles GET requests (including health probes)
-    # It just displays the page without adding a NULL row
-    conn = get_conn()
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT * FROM visitors ORDER BY visit_time DESC")
-        visitors = cursor.fetchall()
-    conn.close()
-    return render_template_string(HTML_TEMPLATE, visitors=visitors)
+        # 3. Fetch visitors for the list (GET or after POST)
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT * FROM visitors ORDER BY visit_time DESC")
+            visitors = cursor.fetchall()
+        conn.close()
 
-if __name__ == "__main__":
+    except Exception as e:
+        db_status = f"Error: {str(e)} ❌"
+
+    # 4. Pass db_status and visitors to your template
+    return render_template_string(HTML_TEMPLATE, db_status=db_status, visitors=visitors)
+
+if __name__ == "__main_
     app.run(host='0.0.0.0', port=80)
