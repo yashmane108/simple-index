@@ -89,16 +89,16 @@ spec:
           httpGet:
             path: /health
             port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 10
+          initialDelaySeconds: 45
+          periodSeconds: 15
           timeoutSeconds: 5
           failureThreshold: 3      # Check every 15 seconds
         readinessProbe:
           httpGet:
             path: /health
             port: 80
-          initialDelaySeconds: 20  # Start checking almost immediately
-          periodSeconds: 10        # Check often for traffic routing
+          initialDelaySeconds: 30  # Start checking almost immediately
+          periodSeconds: 15        # Check often for traffic routing
           timeoutSeconds: 5
           failureThreshold: 3
 ---
