@@ -13,19 +13,21 @@ REGION = "us-east-1"
 
 def get_conn():
     # Generate the IAM Token dynamically for every connection
-    #rds_client = boto3.client('rds', region_name=REGION)
-   # token = rds_client.generate_db_auth_token(
-#        DBHostname=DB_HOST, 
-#        Port=3306, 
-#        DBUsername=DB_USER
-#    )
+    rds_client = boto3.client('rds', region_name=REGION)
+    token = rds_client.generate_db_auth_token(
+        DBHostname=DB_HOST, 
+        Port=3306, 
+        DBUsername=DB_USER,
+        Region=REGION
+    )
     
     return pymysql.connect(
         host=DB_HOST,
         user=DB_USER,      # Ensure this is "admin"
-        password="Success2026!", # Your new master password
+        password=token, # Your new master password
         database=DB_NAME,
         port=3306,
+        ssl={'ca': 'global-bundle.pem'}, # Path to the file you downloaded
         charset='utf8mb4',
         cursorclass=pymysql.cursors.DictCursor,
         connect_timeout=5
