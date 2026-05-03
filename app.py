@@ -100,33 +100,28 @@ def health():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    db_status = "Connected ✅"
-    status_color = "#34a853"
-    
     if request.method == 'POST':
-        try:
+        name = request.form.get('name')
+        message = request.form.get('message')
+        
+        # Only insert if there is actual data
+        if name and message:
             conn = get_conn()
             with conn.cursor() as cursor:
-                cursor.execute("INSERT INTO visitors (name, message) VALUES (%s, %s)", 
-                               (request.form.get('visitor_name'), request.form.get('message')))
+                sql = "INSERT INTO visitors (name, message) VALUES (%s, %s)"
+                cursor.execute(sql, (name, message))
             conn.commit()
             conn.close()
-        except Exception as e:
-            print(f"Error saving: {e}")
-        return redirect('/')
+            return redirect('/')
 
-    entries = []
-    try:
-        conn = get_conn()
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT name, message, visit_time FROM visitors ORDER BY id DESC LIMIT 5")
-            entries = cursor.fetchall()
-        conn.close()
-    except Exception as e:
-        db_status = f"Disconnected ❌ ({str(e)})"
-        status_color = "#ea4335"
-
-    return render_template_string(HTML_TEMPLATE, entries=entries, db_status=db_status, status_color=status_color)
+    # This part handles GET requests (including health probes)
+    # It just displays the page without adding a NULL row
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM visitors ORDER BY visit_time DESC")
+        visitors = cursor.fetchall()
+    conn.close()
+    return render_template_string(HTML_TEMPLATE, visitors=visitors)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
