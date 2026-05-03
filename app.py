@@ -88,6 +88,21 @@ HTML_TEMPLATE = """
 def health():
     return "OK", 200
 
+@app.route('/debug')
+def debug():
+    try:
+        # This checks which IAM role the Pod is actually using
+        sts = boto3.client('sts')
+        identity = sts.get_caller_identity()
+        return {
+            "Status": "IAM Identity Found",
+            "Arn": identity.get('Arn'),
+            "Account": identity.get('Account')
+        }
+    except Exception as e:
+        return {"Error": str(e)}, 500
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     db_status = "Disconnected ❌"
