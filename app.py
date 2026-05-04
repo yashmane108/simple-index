@@ -59,10 +59,11 @@ HTML_TEMPLATE = """
         <div class="tech-stack">
             <h3>🚀 Tech Stack Deployed:</h3>
             <ul>
-                <li>🐳 Docker, Ingress-> Load Balancer, Probes, Resource: Request and Limit</li>
-                <li>☸️ EKS (AWS Managed K8s)</li>
-                <li>🤖 Jenkins (IAM IRSA Integration)</li>
-                <li>☁️ AWS: EC2, RDS (IAM Auth Enabled)</li>
+                <li>🐳 Docker: Ingress-> Load Balancer, Probes, Resource: Request and Limit, Multi-Stage Dockerfile</li>
+                <li>☸️ Prometheus  </li>
+                <li>☸️ Grafana  </li>
+                <li>🤖 Jenkins: Shared Lib, Cred, Env Var, (IAM IRSA Integration)</li>
+                <li>☁️ AWS: EC2, RDS (IAM Auth Enabled), EKS (AWS Managed K8s)</li>
                 
             </ul>
         </div>
