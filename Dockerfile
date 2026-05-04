@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore
 
 COPY app.py .
 COPY index.html .
+COPY global-bundle.pem .
 
 EXPOSE 80
 CMD ["python", "app.py"]
