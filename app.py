@@ -59,7 +59,7 @@ HTML_TEMPLATE = """
         <div class="tech-stack">
             <h3>🚀 Tech Stack Deployed:</h3>
             <ul>
-                <li>🐳 Docker, Ingress-> Load Balancer, Probes, Resource Limit</li>
+                <li>🐳 Docker, Ingress-> Load Balancer, Probes, Resource: Request and Limit</li>
                 <li>☸️ EKS (AWS Managed K8s)</li>
                 <li>🤖 Jenkins (IAM IRSA Integration)</li>
                 <li>☁️ AWS: EC2, RDS (IAM Auth Enabled)</li>
