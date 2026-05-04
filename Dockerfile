@@ -26,7 +26,7 @@ COPY global-bundle.pem .
 COPY index.html .
 
 # Ensure the local bin is in the PATH so Python can find the libraries
-ENV PATH=/root/.local/bin:$PATH
+ENV PYTHONPATH=/build/deps
 
 EXPOSE 80
 
