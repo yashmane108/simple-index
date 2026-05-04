@@ -53,6 +53,7 @@ spec:
       containers:
       - name: my-pod
         image: yashmane108/simple-app:REPLACE_ME
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         # AWS RDS 
