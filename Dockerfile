@@ -1,21 +1,22 @@
+# ------------- STAGE 1 -------------------- # 
 # Use Python instead of Nginx
-FROM python:3.9-slim
-
+FROM python:3.9-slim AS builder
 # Set the working directory inside the container
 WORKDIR /app
-
+# only copy app.py and index.html. remaining added in .dockerignore
+COPY . .
 # Install system dependencies for cryptography
 RUN apt-get update && apt-get install -y gcc libssl-dev && rm -rf /var/lib/apt/lists/*
-
 # Install python libraries
-RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore
+RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore --target=/app/deps
 
-# Copy your Python code (app.py) and your HTML (index.html)
-COPY app.py .
-COPY index.html .
-COPY global-bundle.pem .
+
+# ------------- STAGE 2 -------------------- # 
+FROM gcr.io/distroless/python3-debian12
+WORKDIR /app
+COPY --from=builder /app/deps /app/deps
+COPY --from=builder /app .
 # Still expose port 80
 EXPOSE 80
-
 # Command to start the Python server
 CMD ["python", "app.py"]
