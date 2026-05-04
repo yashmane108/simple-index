@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies into a local folder (wheels)
-RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore --traget=/build/deps
+RUN pip install --no-cache-dir flask pymysql cryptography boto3 botocore --target=/build/deps
 
 # --- Stage 2: Final Runtime Stage ---
 FROM python:3.9-slim
