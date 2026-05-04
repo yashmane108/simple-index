@@ -1,1 +1,3 @@
 k8s/
+Dockerfile
+global-bundle.pem
