@@ -27,7 +27,7 @@ COPY --from=builder /build/deps /app/deps
 COPY app.py .
 COPY global-bundle.pem .
 # Ensure your index.html is copied if your app.py references it externally
-COPY index.html .
+# COPY index.html .
 
 # Ensure Python can find installed libraries
 ENV PYTHONPATH=/app/deps
