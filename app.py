@@ -13,6 +13,7 @@ REGION = "us-east-1"
 
 def get_conn():
     rds_client = boto3.client('rds', region_name=REGION)
+    # gitleaks:allow
     token = rds_client.generate_db_auth_token(
         DBHostname=DB_HOST, 
         Port=3306, 
